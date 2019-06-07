@@ -4,15 +4,11 @@ require 'jwt'
 require 'base64'
 
 module Webpush
-  # It is temporary URL until supported by the GCM server.
-  GCM_URL = 'https://android.googleapis.com/gcm/send'.freeze
-  TEMP_GCM_URL = 'https://fcm.googleapis.com/fcm'.freeze
-
   # rubocop:disable Metrics/ClassLength
   class Request
     def initialize(message: '', subscription:, vapid:, **options)
       endpoint = subscription.fetch(:endpoint)
-      @endpoint = endpoint.gsub(GCM_URL, TEMP_GCM_URL)
+      @endpoint = endpoint
       @payload = build_payload(message, subscription)
       @vapid_options = vapid
       @options = default_options.merge(options)
